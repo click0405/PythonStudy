@@ -1,0 +1,192 @@
+Day04回顾
+1、锁 ：解决客户端并发访问的冲突问题
+  1、锁分类
+    1、锁类型 ：读锁、写锁
+    2、锁粒度 ：行级锁、表级锁
+2、存储引擎
+  1、基本操作
+    mysql> show engines;
+    mysql> show create table 表名;
+    mysql> create table ....)engine=MyISAM;
+    mysql> alter table 表名 engine=InnoDB;
+  2、常用存储引擎
+    1、InnoDB
+      1、支持外键、事务、行级锁、共享表空间
+    2、MyISAM
+      1、支持表级锁、独享表空间
+    3、Memory
+  3、如何选择
+    查询操作多 ：MySAM
+    更新操作多 ：InnoDB
+3、数据备份与恢复
+  1、备份 ：mysqldump -uroot -p 源库名 > XXX.sql
+     --all-databases
+     库名
+     -B 库1 库2 
+     库1 表1 表2 表3 
+  2、恢复 ：mysql -uroot -p 目标库名 < XXX.sql
+     --one-database
+     1、先创建空库再恢复
+     2、库中新增表不会删除,新增记录会被覆盖
+4、ER模型
+  1、关系
+    1:1   1:n  m:n
+  2、矩形框是实体,菱形框是关系,椭圆形是属性
+  3、数据库三范式
+    1、第一范式(1NF) ：列不可拆分
+    2、第二范式(2NF) ：唯一标识
+    3、第三范式(3NF) ：引用主键
+    说明 ：后1个范式,都是在前1个范式的基础上建立的
+5、用户授权
+  1、开启远程连接
+    sudo -i
+    cd /etc/mysql/mysql.conf.d/
+    subl mysqld.cnf
+      bind-address=127.0.0.1
+    /etc/init.d/mysql restart
+  2、执行授权语句
+    mysql>grant all privileges on *.* to "lion"@"%" identified by "123" with grant option;
+6、数据导入
+  1、创建对应表
+  2、拷贝到搜索路径
+    mysql> show variables like "secure_file_priv";
+  3、执行导入语句
+    load data infile "文件绝对路径"
+    into table 表名
+    fields terminated by "分隔符"
+    lines teminated by "\n";
+  4、chmod 644 文件名
+     rw-r--r--   r:4 w:2 x:1
+7、数据导出
+  select .... from 表名 where 条件
+  into outfile "文件名绝对路径"
+  fields terminated by "分隔符"
+  lines terminated by "\n"
+*******************
+Day05笔记
+1、事务和事务回滚
+  1、定义 ：一件事从开始发生到结束的过程
+  2、作用 ：确保数据的一致性
+  3、事务和事务回滚应用
+    SQL命令默认自动提交到数据库执行
+    show variables like "autocommit"
+    1、开启事务
+      mysql>begin;
+    2、终止事务
+      mysql>commit; | rollback;
+    3、案例
+      1、背景
+        你 ：建行卡
+	你朋友 ：工商卡
+	你在建行自动取款机给你朋友转账5000
+      2、建表
+        表1 ：CCB  name、money
+          
+	表2 ：ICBC  name、money
+      3、过程
+        mysql> 到自动提款机输入了账号和转账金额,点转账按钮 \c
+	mysql> begin;
+	mysql> update CCB set money=money-5000 where name=" 有钱人";
+	mysql> update ICBC money=money+5000 where name="穷人";
+	mysql> rollback;
+	mysql> 转账失败 \c
+      4、注意
+        事务只针对于表记录操作(增删改),对库和表的操作无效
+2、与Python交互
+  1、python3
+    1、模块名 ：pymysql
+    2、安装
+      1、在线 ：sudo pip3 install pymysql==0.7.11
+      2、离线 ：pymysql-0.7.11.tar.gz
+        $ tar -xf pymysql-0.7.11.tar.gz
+	$ cd pymysql0.7.11
+	$ python3 setup.py install
+        ##安装pip3## 
+          sudo apt-get install python3-pip
+  2、python2
+    1、模块名 ：MySQLdb
+    2、安装   ：sudo pip install mysql-python
+  3、环境准备
+	1、创建库db5,utf8
+	  create database db5 charset utf8;
+	2、创建表t1
+	  use db5;
+	  create table t1(
+	  id int primary key auto_increment,
+	  name varchar(20),
+	  score float(5,2)
+	  )charset=utf8;
+	3、插入3条记录
+	  insert into t1 values
+	  (1,"李白",60),
+	  (2,"杜甫",70),
+	  (3,"白居易",80);     10:45分
+  4、pymysql使用流程
+    1、数据库连接对象 ：db = pymysql.connect(...)
+    2、游标对象       ：cur = db.cursor()
+    3、执行命令       ：cur.execute('sql命令')
+    4、提交           ：db.commit()
+    5、关闭游标       ：cur.close()
+    6、关闭数据库连接 ：db.close()
+  5、数据库连接对象(db)方法
+    1、db.commit()   ：提交到数据库执行
+    2、db.rollback() ：回滚
+    3、db.close()    ：断开与数据库连接
+    4、db.cursor()   ：创建游标对象
+
+  6、游标对象(cur)方法
+    1、cur.execute(sql命令) ：执行sql命令
+    2、cur.close()          ：关闭游标对象
+    3、cur.fetchone()       ：取第1条(查询)
+    4、cur.fetchmany(n)     ：取n条(查询)
+    5、cur.fetchall()       ：取所有记录(查询)
+  7、connect()连接对象的参数
+    1、host ：主机地址
+    2、user ：用户名
+    3、password ：密码
+    4、database ：库名
+    5、charset  ：字符集(推荐utf8)
+    6、port     ：端口号(3306)
+3、ORM(Object Relation Mapping对象关系映射)
+  1、定义 
+    把对象模型映射到MySQL数据库中
+  2、sqlalchemy安装
+    在线 ：sudo pip3 install sqlalchemy
+    离线 ：
+      $ tar -xf sql....tar.gz
+      $ cd sqlalchemy
+      $ sudo python3 setup.py install 
+  3、示例
+    class User(Base):
+        __tablename__ = "t123"
+	id = Column(Integer,primary_key=True)
+	name = Column(String(20))
+  4、映射类型
+    1、Python类(class) <--> 数据库中表
+         class User ...        t123
+    2、Python中类属性  <--> 数据库中表字段(id ..)
+       id = Column(Integer)
+    3、关系映射
+       1:1 ：主外键关联,添加唯一约束
+       1:n ：主外键关联
+       m:n ：通过中间表实现,见 多对多关联实现.png
+  5、示例
+    1、在db5库创建表t123,表中字段有
+      id 整型,设置为主键,自增长
+      name 字符类型,宽度20
+      phnumber 字符类型,宽度11
+图形界面 
+  Windows ：Navicat
+
+
+
+
+
+
+
+
+
+
+
+
+
