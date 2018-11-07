@@ -386,23 +386,62 @@ regex 对象的属性
           2. 匹配其中所有数字  123  1.23  -1 -1.23  45%  1/2
 
         使用regex对象调用函数复习函数使用
+
+*********************************************************
+复习
+1. 什么是正则表达式
+2. 元字符  
+3. 正则表达式的转义  贪婪  分组
+4. 正则表达式的匹配原则
+5. re模块使用
+       re 模块调用
+       compile 对象 调用
+       match obj 调用
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 match object 方法和属性
-属性变量：
-pos
-endpos
-re
-string
-lastgroup
-lastindex
+
+属性变量
+pos     匹配目标字符串的开始位置
+endpos  匹配目标字符串的结束位置
+re      正则表达式
+string  目标字符串
+lastgroup  最后一组的组名
+lastindex  最后一组是第几组
+
+属性方法
+span()   匹配内容的起止位置
+start()  匹配内容的开始位置
+end()    匹配内容的结束位置
+
+group()
+功能： 获取match对象对应的内容
+参数： 默认为0 表示获取整个正则匹配到的内容
+       如果为序列号或者子组名，则表示获取某个子组对应的内容
+返回值：返回获取到的字串
+
+groupdict()  获取捕获组字典，组名作为键，对应内容作为值
+groups()  获取每个子组匹配到的内容
+
+
+flags参数的使用
+
+    使用函数 ：re.compile  re.findall  re.search  re.match
+            re.finditer  re.fullmatch  re.sub re.subn re.split
+
+    作用 ： 辅助正则表达式，丰富匹配效果
+
+    I == IGNORECASE   匹配时忽略字母大小写
+    S == DOTALL     作用于元字符 .  使 . 可以匹配换行
+    M == MULTILINE  作用于^  $ 使其匹配每一行的开头结尾
+    X == VERBOSE    可以给正则表达式添加注释
+
+    同时使用多个标志位
+        flags = re.I | re.X
 
 
 
-
-
-
-
-'end', 'endpos', 'expand', 'group', 'groupdict', 'groups', 'lastgroup', 'lastindex', 
-'pos', 're', 'regs', 'span', 'start', 'string'
 
 
 
