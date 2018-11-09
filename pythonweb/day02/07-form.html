@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="Generator" content="EditPlus?">
+        <meta name="Author" content="">
+        <meta name="Keywords" content="">
+        <meta name="Description" content="">
+        <title>
+            Document
+        </title>
+    </head>
+    
+    <body>
+        <form action="1.py" method="get">
+            <p>
+                用户名：
+                <input type="text" name="username" placeholder="请输入不超过6位用户名" maxlength=6
+                />
+            </p>
+            <p>
+                密 &nbsp&nbsp码：
+                <input type="password" name="upwd" placeholder="不超过6位密码" maxlength=6/>
+            </p>
+            <p>
+                用户性别：
+                <input type="radio" id="sex_male" name="sex" value="male" checked/>
+                <label for="sex_male">
+                    男
+                </label>
+                <input type="radio" id="sex_female" name="sex" value="female" />
+                <label for="sex_female">
+                    女
+                </label>
+                <input type="radio" id="sex_none" name="sex" value="none" />
+                <label for="sex_none">
+                    不男不女
+                </label>
+            </p>
+            <p>
+                兴趣爱好：
+                <input type="checkbox" id="h_smoke" name="hobby" value="smoke" />
+                <label for="h_smoke">
+                    抽烟
+                </label>
+                <input type="checkbox" id="h_drink" name="hobby" value="drink" />
+                <label for="h_drink">
+                    喝酒
+                </label>
+                <input type="checkbox" id="h_h" name="hobby" value="hothair" />
+                <label for="h_h">
+                    烫头
+                </label>
+            </p>
+            <p>
+                <input type="hidden" name="uid" value="0001">
+            </p>
+            <p>
+                选择文件：
+                <input type="file" name="ufile">
+            </p>
+            <p>
+                选择城市：
+                <select name="address" id="">
+                    <option value="bj">
+                        北京
+                    </option>
+                    <option value="sh" selected>
+                        上海
+                    </option>
+                    <option value="gz">
+                        广州
+                    </option>
+                    <option value="sz">
+                        深圳
+                    </option>
+                </select>
+            </p>
+            <p>
+                <button>
+                    提交
+                </button>
+            </p>
+            <p>
+                个人介绍：
+                <textarea name="uinfo">
+                </textarea>
+            </p>
+            <p>
+                <input type="submit" value="提交">
+                <input type="reset" value="重置">
+                <input type="button" value="普通按钮">
+            </p>
+        </form>
+    </body>
+
+</html>

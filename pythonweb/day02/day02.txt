@@ -1,0 +1,58 @@
+1.图片与超链接
+  1.图片标签
+    <img src="00.jpg" width=32 height=64 title="悬停文本">
+  2.超链接
+    <a href="./index.html">本地路径</a>
+    <a href="https://www.acfun.cn">ACFun2</a>
+    <a href="#under">跳转到本页under位置</a>
+    <a name="under"></a>
+  3.表格标签
+    1.<table align="center/right/left" cellplacing="2px" border="2px" bgcolor="red">
+        <tr align="right/center/left" vlign="middle/top/bottom">
+		<td width="100px" height="200px"><td>	
+	</tr>	
+      </table>
+    2.单元格合并
+      rowspan/colspan
+      thead/tbody/tfoot
+  4.form表单
+    action 提交地址
+    method Get/post
+    enctype(encode type)
+	application/x-www-form-rulencoded
+	multipart/form-data 专用于上传特殊数据，如图片文件mp3等，必须是post
+	*text/plain纯文本编码，不包含任何控件格式字符串
+    表单控件
+       <input type="text">	文本框
+       <input type="password">	密码框
+       属性:type ->控件类型
+            name ->指定控件名称，缺少无法提交
+	    value->指定控件的值，可以通过JS获取
+	    maxlength->指定最大输入字符数量
+	    placeholder->指定提示文本
+	    autocomplete->自动补全
+       单选按钮和复选框
+       <input type="radio"/>	单选
+       <input type="checkbox">	复选框
+       属性：
+	    name   ->定义控件名称(一组的名称一致)
+	    value  ->定义控件的值最终将发给服务器
+	    checked->选中当前按钮
+	下面这段代码在干什么?
+       <input text="radio" id="sex_male" name="male">
+       <label for="sex_male">男</label>
+       语法：
+	<input type="hidden" name="uid" value="0001">
+	<input type="file" name="ufile">
+	<select name="address">
+	  <option value="bj">北京</option>
+	  <option value="sh">上海</option>
+	</select>
+	<textarea name="uinfo" cols=10 rows=20 ></textarea>
+	提交按钮
+	<input type="submit" value="提交">
+	重置按钮
+	<input type="reset" value="重置">
+	<input type="button" value="普通按钮">
+
+    
